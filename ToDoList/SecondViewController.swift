@@ -1,3 +1,4 @@
+
 //
 //  SecondViewController.swift
 //  ToDoList
@@ -8,18 +9,46 @@
 
 import UIKit
 
-class SecondViewController: UIViewController {
+class SecondViewController: UIViewController, UITextFieldDelegate {
+
+  @IBOutlet weak var tvName: UITextField!
+  @IBOutlet weak var tvDescription: UITextField!
+
+  let taskMgrInstance = TaskManager.getInstance()
 
   override func viewDidLoad() {
     super.viewDidLoad()
-    // Do any additional setup after loading the view, typically from a nib.
   }
 
   override func didReceiveMemoryWarning() {
     super.didReceiveMemoryWarning()
-    // Dispose of any resources that can be recreated.
   }
 
+  @IBAction func onAddTaskListener(sender: UIButton) {
+    println("onClick")
+    self.view.endEditing(true)
+    let name = tvName.text
+    let desc = tvDescription.text
+    if name.isEmpty || description.isEmpty {
+      return
+    }
+    taskMgrInstance.addTask(name: name, description: desc)
+    resetUITextFieldText(tvName, tvDescription)
+    self.tabBarController?.selectedIndex = 0
+  }
 
+  func resetUITextFieldText(tvs: UITextField...) -> Void {
+    for tv in tvs { tv.text = "" }
+  }
+
+  func textFieldShouldReturn(textField: UITextField) -> Bool {
+    println("Return")
+    textField.resignFirstResponder()
+    return true
+  }
+
+  override func touchesBegan(touches: Set<NSObject>, withEvent event: UIEvent) {
+    self.view.endEditing(true)
+  }
 }
 
